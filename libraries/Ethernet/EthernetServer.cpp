@@ -4,15 +4,15 @@ HAYESDUINO PROJECT - COPYRIGHT 2013, PAYTON BYRD
 Project homepage: http://hayesduino.codeplex.com
 License: http://hayesduino.codeplex.com/license
 ***********************************************/
-#include "w5100.h"
-#include "socket.h"
+#include "utility/w5100.h"
+#include "utility/socket.h"
 extern "C" {
 #include "string.h"
 }
 
-#include "Ethernet.h"
 #include "EthernetClient.h"
 #include "EthernetServer.h"
+#include "Ethernet.h"
 
 EthernetServer::EthernetServer(uint16_t port)
 {
@@ -34,7 +34,7 @@ void EthernetServer::begin()
 
 EthernetClient EthernetServer::connected(uint8_t sock)
 {
-	accept();
+    accept();
 
     EthernetClient client(sock);
     if (EthernetClass::_server_port[sock] == _port &&
@@ -43,7 +43,7 @@ EthernetClient EthernetServer::connected(uint8_t sock)
       return client;
     }
 
-	return EthernetClient(MAX_SOCK_NUM);
+    return EthernetClient(MAX_SOCK_NUM);
 }
 
 EthernetClient EthernetServer::connected()

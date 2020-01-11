@@ -16,10 +16,10 @@ License: http://hayesduino.codeplex.com/license
 
 #include "DEBUG.h"
 
+#include "libraries/Ethernet/EthernetClient.h"
 #include "ModemBase.h"
+#include "libraries/Ethernet/EthernetServer.h"
 #include "Ethernet.h"
-#include "EthernetClient.h"
-#include "EthernetServer.h"
 #include "Dns.h"
 
 #include <stdlib.h>
@@ -260,8 +260,7 @@ void loop()
 		//}
 	}
 
-	unsigned char remoteIP[4];
-
+	uint8_t remoteIP[4];
 	for(int i=0; i<4; ++i)
 	{
 		if(currentClient < MAX_SOCK_NUM
@@ -279,7 +278,7 @@ void loop()
 
 	EthernetClient tempClient;
 	if(
-		(tempClient = EthServer.connected()) && 
+		(tempClient = EthServer.connected()) &&
 		!modem.getIsConnected()
 		)
 	{

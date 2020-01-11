@@ -4,8 +4,8 @@ HAYESDUINO PROJECT - COPYRIGHT 2013, PAYTON BYRD
 Project homepage: http://hayesduino.codeplex.com
 License: http://hayesduino.codeplex.com/license
 ***********************************************/
-#include "w5100.h"
-#include "socket.h"
+#include "utility/w5100.h"
+#include "utility/socket.h"
 
 extern "C" {
   #include "string.h"
@@ -13,9 +13,9 @@ extern "C" {
 
 #include "Arduino.h"
 
-#include "Ethernet.h"
 #include "EthernetClient.h"
 #include "EthernetServer.h"
+#include "Ethernet.h"
 #include "Dns.h"
 
 uint16_t EthernetClient::_srcport = 1024;
