@@ -37,13 +37,6 @@ License: http://hayesduino.codeplex.com/license
 #include "Logger.h"
 #endif
 
-int IEC_ATN_IN = A5;
-int IEC_RESET_IN = A4;
-int IEC_CLK_IN = A3;
-int IEC_CLK_OUT = A2;
-int IEC_DATA_IN = A1;
-int IEC_DATA_OUT = A0;
-
 int SPI_MOSI = 11;
 int SPI_MISO = 12;
 int SPI_CLK = 13;
@@ -133,13 +126,6 @@ void dialout(char * host, ModemBase *modm)
 void setup()
 {
 
-	pinMode(IEC_ATN_IN, INPUT);
-	pinMode(IEC_RESET_IN, INPUT);
-	pinMode(IEC_DATA_IN, INPUT);
-	pinMode(IEC_CLK_IN, INPUT);
-	pinMode(IEC_DATA_OUT, OUTPUT);
-	pinMode(IEC_CLK_OUT, OUTPUT);
-
 	pinMode(SPI_MOSI, OUTPUT);
 	pinMode(SPI_MISO, INPUT);
 	pinMode(SPI_CLK, OUTPUT);
@@ -176,14 +162,13 @@ void setup()
 
 	byte usedDHCP = 0;
 
-	mac[0] = EEPROM.read(MAC_1);
-	mac[1] = EEPROM.read(MAC_2);
-	mac[2] = EEPROM.read(MAC_3);
-	mac[3] = EEPROM.read(MAC_4);
-	mac[4] = EEPROM.read(MAC_5);
-	mac[5] = EEPROM.read(MAC_6);
-
-	Serial.println("Before Ethernet.");
+	mac[0] = 0x90; // EEPROM.read(MAC_1);
+	mac[1] = 0xA2; // EEPROM.read(MAC_2);
+	mac[2] = 0xDA; // EEPROM.read(MAC_3);
+	mac[3] = 0x03; // EEPROM.read(MAC_4);
+	mac[4] = 0x00; // EEPROM.read(MAC_5);
+	mac[5] = 0x3E; // EEPROM.read(MAC_6);
+	Serial.print("Before Ethernet. MAC:");
 	if(EEPROM.read(USE_DHCP) != 0)
 	{
 		usedDHCP = 1;
@@ -209,10 +194,12 @@ void setup()
 	Serial.println("Before EthServer.begin");
 	EthServer.begin();
 	Serial.println("After EthServer.begin");
+	auto str = usedDHCP == 1 ? F("USING DHCP") : F("STATIC IP");
+	Serial.println(str);
 
 	pinMode(STATUS_LED, OUTPUT);
 
-	modem.println(usedDHCP == 1 ? F("USING DHCP") : F("STATIC IP"));
+	modem.println(str);
 
 	modem.print(F("DNS SERVER: "));
 	Ethernet.dnsServerIP().printTo(modem);
