@@ -16,7 +16,7 @@ License: http://hayesduino.codeplex.com/license
 #ifndef _MODEMBASE_h
 #define _MODEMBASE_h
 #include <Stream.h>
-#include <SD.h>
+//#include <SD.h>
 #include "EthernetClient.h"
 
 #include "Arduino.h"
@@ -47,24 +47,14 @@ License: http://hayesduino.codeplex.com/license
 #define DCE_RI   24  // White/Brown
 #define DTE_DCD  25  // Brown
 #define DCE_DTR  25
-#define DTE_CTS  27  // White/Orange
-#define DCE_RTS  27
-#define DTE_DSR  29  // White/Blue
+#define DTE_CTS  26  // White/Orange
+#define DCE_RTS  26
+#define DTE_DSR  27  // White/Blue
 #define TxD      18  // Blue
-#define RxD      19 // Green
+#define RxD      19  // Green
 
-//#define DTE_RTS  2  // Orange
-//#define DCE_CTS  2
-//#define DTE_DTR  7  // White/Green
-//#define DCE_DCD	 7
-//#define DCE_RI   4  // White/Brown
-//#define DTE_DCD  5  // Brown
-//#define DCE_DTR  5
-//#define DTE_CTS  6  // White/Orange
-//#define DCE_RTS  6
-//#define DTE_DSR  3  // White/Blue
-//#define TxD      19  // Blue
-//#define RxD      18 // Green
+
+
 #endif
 
 class ModemBase : public Stream
@@ -167,7 +157,7 @@ S37 Command options:
 	 void connectOut(void);
 
 	 void processCommandBuffer(EthernetClient *client);
-	 void processData(EthernetClient *client, File *myLogFile);
+	 void processData(EthernetClient* client);// , File* myLogFile);
 	 
 	 void resetToDefaults(void);
 

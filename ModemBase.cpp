@@ -1520,7 +1520,7 @@ void ModemBase::connectOut()
 	_isRinging = false;
 }
 
-void ModemBase::processData(EthernetClient *cl, File *myLogFile)
+void ModemBase::processData(EthernetClient *cl)//, File *myLogFile)
 {
 	digitalWrite(DCE_RTS, LOW);
 	//if(digitalRead(DCE_CTS) == HIGH) Serial.write("::DCE_CTS is high::");
@@ -1528,6 +1528,7 @@ void ModemBase::processData(EthernetClient *cl, File *myLogFile)
 	while(_serial->available())
 	{
 		Serial.write("::available::");
+		Serial.write(_isCommandMode ? "COM" : "NOT");
 		//digitalWrite(DCE_RTS, HIGH);
 		if(_isCommandMode)
 		{
@@ -1591,7 +1592,7 @@ void ModemBase::processData(EthernetClient *cl, File *myLogFile)
 				if(!_isCommandMode)
 				{
 					int result = cl->write(inbound);
-					myLogFile->write(inbound);
+					//myLogFile->write(inbound);
 					if(result != 1) 
 					{
 						println();

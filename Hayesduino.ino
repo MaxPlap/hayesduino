@@ -30,7 +30,7 @@ License: http://hayesduino.codeplex.com/license
 #include "EEPROM.h"
 #include "HardwareSerial.h"
 
-#include <SD.h>
+//#include <SD.h>
 
 
 #if DEBUG == 1 && !defined(__UNO__)
@@ -52,7 +52,7 @@ ModemBase modem;
 EthernetClient client;
 EthernetServer EthServer(23);
 
-File myLogFile;
+//File myLogFile;
 
 int currentClient = MAX_SOCK_NUM;
 
@@ -61,8 +61,8 @@ void disconnectClient(EthernetClient *client)
 {
 	currentClient = MAX_SOCK_NUM;
 	if(client) client->stop();
-	myLogFile.flush();
-	myLogFile.close();
+	//myLogFile.flush();
+	//myLogFile.close();
 }
 
 void dialout(char * host, ModemBase *modm)
@@ -156,7 +156,7 @@ void setup()
 	//if(!SD.begin(4))
 	//{
 	//	Serial.println("Could not initialize SD card.  FREEZING.");
-	//	//while(true);
+	//	while(true);
 	//}
 
 
@@ -238,13 +238,13 @@ void loop()
 			return;
 		}
 
-		//if(!client.connected()) return;
-		//else if(!modem.getIsConnected())
-		//{
-		//	client.println(F("modem in limbo. disconnecting."));
-		//	client.stop();
-		//	currentClient == MAX_SOCK_NUM;
-		//}
+		if(!client.connected()) return;
+		else if(!modem.getIsConnected())
+		{
+			client.println(F("modem in limbo. disconnecting."));
+			client.stop();
+			currentClient == MAX_SOCK_NUM;
+		}
 	}
 
 	uint8_t remoteIP[4];
@@ -277,11 +277,11 @@ void loop()
 
 			client.getRemoteIP(remoteIP);
 
-			myLogFile = SD.open("bbs.log", FILE_WRITE);
-			myLogFile.print(remoteIP[0]); myLogFile.print('.');
-			myLogFile.print(remoteIP[1]); myLogFile.print('.');
-			myLogFile.print(remoteIP[2]); myLogFile.print('.');
-			myLogFile.print(remoteIP[3]); myLogFile.print('\n');
+			//myLogFile = SD.open("bbs.log", FILE_WRITE);
+			//myLogFile.print(remoteIP[0]); myLogFile.print('.');
+			//myLogFile.print(remoteIP[1]); myLogFile.print('.');
+			//myLogFile.print(remoteIP[2]); myLogFile.print('.');
+			//myLogFile.print(remoteIP[3]); myLogFile.print('\n');
 
 			modem.connect(&client);
 
@@ -290,7 +290,7 @@ void loop()
 				client.println(".");
 			}
 			client.println(F("CONNECTING TO SYSTEM."));
-			myLogFile.println(F("CONNECTING TO SYSTEM."));
+			//myLogFile.println(F("CONNECTING TO SYSTEM."));
 		}
 	} 
 	
@@ -310,7 +310,7 @@ void loop()
 			inbound = client.read();
 
 			modem.write(inbound);
-			myLogFile.write(inbound);
+			//myLogFile.write(inbound);
 			Serial.write(inbound);
 		}  
 		else if(!modem.getIsCommandMode() && client.available() == 0)
@@ -339,7 +339,7 @@ void loop()
 	//	digitalWrite(DTE_RTS, LOW);
 	//}
 
-	modem.processData(&client, &myLogFile);
+	modem.processData(&client);// , & myLogFile);
 
 	//digitalWrite(DCE_RTS, HIGH);
 
