@@ -80,10 +80,10 @@ ModemBase::ModemBase()
 {
 	pinMode(DCE_RI , OUTPUT);
 	pinMode(DCE_RTS, OUTPUT);
-	//pinMode(DCE_RTS, INPUT);
+	pinMode(DCE_RTS, INPUT);
 	pinMode(DCE_DCD, INPUT);
 	pinMode(DCE_CTS, INPUT);
-	//pinMode(DCE_CTS, OUTPUT);
+	pinMode(DCE_CTS, OUTPUT);
 	pinMode(DCE_DTR, OUTPUT);
 	pinMode(DTE_DSR, OUTPUT);
 
@@ -1529,7 +1529,7 @@ void ModemBase::processData(EthernetClient *cl)//, File *myLogFile)
 	{
 		Serial.write("::available::");
 		Serial.write(_isCommandMode ? "COM" : "NOT");
-		//digitalWrite(DCE_RTS, HIGH);
+		digitalWrite(DCE_RTS, HIGH);
 		if(_isCommandMode)
 		{
 			char inbound = toupper(_serial->read());
@@ -1603,7 +1603,7 @@ void ModemBase::processData(EthernetClient *cl)//, File *myLogFile)
 			}
 		}
 	}
-	//digitalWrite(DCE_RTS, LOW);
+	digitalWrite(DCE_RTS, LOW);
 }
 
 void ModemBase::setLineSpeed(void)

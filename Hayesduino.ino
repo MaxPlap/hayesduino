@@ -306,7 +306,7 @@ void loop()
 	{
 		if(!modem.getIsCommandMode() && client.available() > 0)
 		{
-			//digitalWrite(DCE_RTS, HIGH);
+			digitalWrite(DCE_RTS, HIGH);
 			inbound = client.read();
 
 			modem.write(inbound);
@@ -315,7 +315,7 @@ void loop()
 		}  
 		else if(!modem.getIsCommandMode() && client.available() == 0)
 		{
-			//digitalWrite(DCE_RTS, LOW);
+			digitalWrite(DCE_RTS, LOW);
 		}
 		else if(modem.getIsCommandMode() && client.available() > 0)
 		{
@@ -332,16 +332,16 @@ void loop()
 	else if(!modem.getIsConnected() &&
 		modem.getIsCommandMode())
 	{
-		//digitalWrite(DCE_RTS, LOW);
+		digitalWrite(DCE_RTS, LOW);
 	}
-	//else if(digitalRead(DTE_CTS) == HIGH)
-	//{
-	//	digitalWrite(DTE_RTS, LOW);
-	//}
+	else if(digitalRead(DTE_CTS) == HIGH)
+	{
+		digitalWrite(DTE_RTS, LOW);
+	}
 
 	modem.processData(&client);// , & myLogFile);
 
-	//digitalWrite(DCE_RTS, HIGH);
+	digitalWrite(DCE_RTS, HIGH);
 
 }
 
